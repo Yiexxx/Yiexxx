@@ -8,9 +8,8 @@
   <img alt="contribution snake" src="https://raw.githubusercontent.com/Yiexxx/Yiexxx/output/github-contribution-grid-snake.svg" />
 </picture>
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=Yiexxx&show_icons=true&hide_border=true&count_private=true" alt="github stats"/>
+<img width="100%" src="https://raw.githubusercontent.com/Yiexxx/contribution-pulse/main/stats-card.svg" alt="Yiexxx 的贡献统计卡片"/>
+
 <img height="165" src="https://streak-stats.demolab.com?user=Yiexxx&hide_border=true&locale=zh_Hans" alt="streak stats"/>
 
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Yiexxx&layout=compact&hide_border=true" alt="top langs"/>
-
-<!-- 由 daily-pulse 自动维护贡献记录,贪吃蛇由 snake.yml 每日更新 -->
+<!-- 贪吃蛇由 snake.yml 每日更新;统计卡片由 contribution-pulse 仓库每日生成,自托管不限流 -->
