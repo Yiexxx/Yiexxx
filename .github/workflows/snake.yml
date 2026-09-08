@@ -1,0 +1,29 @@
+name: generate snake
+
+on:
+  schedule:
+    - cron: "43 0 * * *"   # UTC 00:43 = 北京时间 08:43,每天一次
+  workflow_dispatch:        # 允许手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 生成贡献格子贪吃蛇动画
+        uses: Platane/snk/svg-only-action@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+
+      - name: 发布到 output 分支
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
