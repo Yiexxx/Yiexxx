@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 生成贡献格子贪吃蛇动画
-        uses: Platane/snk/svg-only-action@v3
+        uses: Platane/snk@v3.5.0
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
