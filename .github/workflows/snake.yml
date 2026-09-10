@@ -12,6 +12,13 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
+      - name: 检出 output 分支
+        uses: actions/checkout@v4
+        with:
+          ref: output
+          path: out
+          persist-credentials: false   # 推送时用我们自己的 token
+
       - name: 生成贡献格子贪吃蛇动画
         uses: Platane/snk@v3.5.0
         with:
@@ -20,10 +27,21 @@ jobs:
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      - name: 发布到 output 分支
-        uses: crazy-max/ghaction-github-pages@v4
-        with:
-          target_branch: output
-          build_dir: dist
+      - name: 以仓库主人身份提交并推送
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          cp dist/*.svg out/
+          cd out
+          USER_JSON=$(curl -s -H "Authorization: Bearer $GH_PAT" https://api.github.com/user)
+          LOGIN=$(echo "$USER_JSON" | jq -r .login)
+          USERID=$(echo "$USER_JSON" | jq -r .id)
+          git config user.name  "$LOGIN"
+          git config user.email "${USERID}+${LOGIN}@users.noreply.github.com"
+          git add *.svg
+          if git diff --cached --quiet; then
+            echo "动画没有变化,跳过提交"
+          else
+            git commit -m "snake: refresh animation $(date -u +%F)"
+            git push https://x-access-token:${GH_PAT}@github.com/${GITHUB_REPOSITORY}.git HEAD:output
+          fi
